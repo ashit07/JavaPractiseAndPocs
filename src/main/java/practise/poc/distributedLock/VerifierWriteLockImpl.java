@@ -37,7 +37,7 @@ public class VerifierWriteLockImpl implements Runnable{
 	}
 	public void writeToFile() {
 		try {
-			Files.write(name.getBytes(), new File("/Users/junas01/Documents/workspace/practise-java8/src/main/resources/abc.txt"));
+			Files.write(name.getBytes(), new File("abc.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,13 +45,13 @@ public class VerifierWriteLockImpl implements Runnable{
 	public void sendRequest() {
 		int docTypeNum= 550;
 		String mapping = "";
-		mapping = "{\"product_id\":\"PIM_4\",\"doc_type_id\":\"wb\",\"doc_type_version\":\""+560+"\",\"mappings\":{\"data\":{\"properties\":{\"userid1\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"userid39\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"userid322\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"userid321\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"new_add1\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"timings\":{\"type\":\"date\",\"format\":\"yyyy-MM-dd\",\"isArray\":true},\"GeoLocation\":{\"type\":\"object\",\"properties\":{\"altitude\":{\"type\":\"integer\",\"isArray\":true}}},\"name"+name+"\":{\"type\":\"string\"}}}}}";
+		mapping = "{\"mappings\":{\"data\":{\"properties\":{\"userid1\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\"},\"userid39\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"userid322\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"userid321\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"new_add1\":{\"type\":\"geo_point\",\"index\":\"not_analyzed\",\"isArray\":true},\"timings\":{\"type\":\"date\",\"format\":\"yyyy-MM-dd\",\"isArray\":true},\"GeoLocation\":{\"type\":\"object\",\"properties\":{\"altitude\":{\"type\":\"integer\",\"isArray\":true}}},\"name"+name+"\":{\"type\":\"string\"}}}}}";
 		ClientConfig config = new DefaultClientConfig();
 		config.getProperties().put(URLConnectionClientHandler.PROPERTY_HTTP_URL_CONNECTION_SET_METHOD_WORKAROUND, true);
 		Client client = Client.create(config);
 		WebResource service = client.resource(UriBuilder.fromUri(
-			"http://junas01-I188017.ca.com:8080/onboarding").build());
-		ClientResponse response = service.path("doc_type").accept(MediaType.APPLICATION_JSON).type("application/json").method("PATCH", ClientResponse.class, mapping);
+			"http://localhost:9200/index1").build());
+		ClientResponse response = service.path("mappings").accept(MediaType.APPLICATION_JSON).type("application/json").method("POST", ClientResponse.class, mapping);
 
 		System.out.println(response.getStatus() +"-----");
 		if (response.getStatus() != 204) {
